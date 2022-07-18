@@ -7,53 +7,6 @@
 #include "Engine.h"
 
 
-// Vertices to generate a cube
-//
-float cubeVertices[] = {
-	// Vertex positions   // Texture coords
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-};
-
 
 
 
@@ -66,17 +19,21 @@ float cubeVertices[] = {
 // Constructors
 //
 
-Engine::Engine(const char* windowTitle, int screenWidth, int screenHeight, vec3 initialCamPos, float camYaw, float camPitch, float movementSpeed, float mouseSensitivity, float fov, vec3 backgroundColor, vec3 voxelColor) {
+Engine::Engine(const char* windowTitle, int screenWidth, int screenHeight, vec3 initialCamPos, float camYaw, float camPitch, float movementSpeed, float mouseSensitivity, float fov, vec3 backgroundColor, vec3 voxelColor, float voxelSizeMultiplier) {
 	this->screenWidth = screenWidth;
 	this->screenHeight = screenHeight;
 	this->backgroundColor = backgroundColor;
 	this->voxelColor = voxelColor;
-
+	this->voxelSizeMultiplier = voxelSizeMultiplier;
+	
 	// Setup camera
 	camera = new Camera(initialCamPos, camYaw, camPitch, movementSpeed, mouseSensitivity, fov);
 
 	// Setup world object to store world space positions of the voxels
-	world = new World;
+	world = new World(voxelSizeMultiplier);
+
+	// Setup shapes object
+	shapes = new Shapes(voxelSizeMultiplier);
 
 	// Last mouse movement position
 	prevX = screenWidth / 2.0f;
@@ -130,9 +87,9 @@ Engine::Engine(const char* windowTitle, int screenWidth, int screenHeight, vec3 
 
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), cubeVertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, shapes->cube().size() * sizeof(float), &shapes->cube()[0], GL_STATIC_DRAW);
 
-	// POSITION attrib
+	// POSITION attrib  
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 	// TEXTUREPOS attrib

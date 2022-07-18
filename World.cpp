@@ -12,8 +12,8 @@
 
 // Constructors
 //
-World::World() {
-	// Do nothing
+World::World(float voxelSizeMultiplier) {
+	this->voxelSizeMultiplier = voxelSizeMultiplier;
 }
 
 // Helper functions
@@ -45,10 +45,10 @@ int World::getBlockCount() const {
 // Adds a block to the world
 //
 void World::addBlock(int x, int y, int z) {
-	blockPositions.push_back(vec3(x, y, z));
+	blockPositions.push_back(vec3(x, y, z) * voxelSizeMultiplier);
 }
 void World::addBlock(vec3 coords) {
-	blockPositions.push_back(coords);
+	blockPositions.push_back(coords * voxelSizeMultiplier);
 }
 
 
@@ -94,6 +94,12 @@ void World::clear() {
 //
 void World::setVector(vector<vec3> newVector) {
 	clear();		// Clear previous vector
+
+	// Adjust vector to match size
+	for (auto v : newVector) {
+		v *= voxelSizeMultiplier;
+	}
+
 	blockPositions = newVector;
 }
 
@@ -128,21 +134,21 @@ void World::setVector(vec3 startPosition, string blockList, int blockLength) {
 			throw out_of_range("ERROR::ENGINE::WORLD::SETVECTOR\nInvalid string");
 
 		// Iterate
-		x++;
+		x += voxelSizeMultiplier;
 		i++;
 		if (i == blockLength) {
 			// Reset x
 			x = 0;
 			i = 0;
 
-			y++;
+			y += voxelSizeMultiplier;
 			j++;
 			if (j == blockLength) {
 				// Reset y
 				y = 0;
 				j = 0;
 
-				z++;
+				z += voxelSizeMultiplier;
 			}
 		}
 	}

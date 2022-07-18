@@ -20,11 +20,12 @@ class World
 {
 private:
 	vector<vec3> blockPositions;
+	float voxelSizeMultiplier;
 
 public:
 	// Constructors
 	//
-	World();
+	World(float voxelSizeMultiplier);
 
 	// Helper functions
 	vector<vec3>& getPositionVector();		// Returns the position vector for use
@@ -33,9 +34,9 @@ public:
 	// Voxel modification
 	void addBlock(int x, int y, int z);		// Adds a block to the world
 	void addBlock(vec3 coords);				// 
-
+	
 	bool removeBlock(int x, int y, int z);	// Removes a block from the world; Returns true if found
-	void removeBlockAt(int index);				// Removes the block at given index
+	void removeBlockAt(int index);			// Removes the block at given index
 	void clear();							// Remove all blocks
 
 	void setVector(vector<vec3> newVector);		// Replaces the previous vector with a premade new one

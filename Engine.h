@@ -6,6 +6,7 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -13,8 +14,22 @@
 #include "Shader.h"
 #include "Camera.h"
 #include "World.h"
+#include "Shapes.h"
 
+
+using namespace std;
 using namespace glm;
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -26,11 +41,15 @@ private:
 	float deltaTime = 0.0f;			// Time between current and last frame
 	float lastFrame = 0.0f;
 
+	// Voxels
+	float voxelSizeMultiplier;
+
 public:
 	GLFWwindow* window;				// Create new window
 	Camera* camera;					// Create new camera
 	Shader* shader;					// Create new shader object
 	World* world;					// Create new world object
+	Shapes* shapes;					// Create new shapes object	(generates vertex arrays)
 	int screenWidth, screenHeight;
 	bool firstMouseFocus = true;	// Remains true until mouse becomes focused in window
 	float prevX, prevY;				// Last mouse movement position
@@ -44,7 +63,7 @@ public:
 	//
 
 	// Initialize the engine
-	Engine(const char* windowTitle, int screenWidth, int screenHeight, vec3 initialCamPos, float camYaw, float camPitch, float movementSpeed, float mouseSensitivity, float fov, vec3 backgroundColor, vec3 voxelColor);
+	Engine(const char* windowTitle, int screenWidth, int screenHeight, vec3 initialCamPos, float camYaw, float camPitch, float movementSpeed, float mouseSensitivity, float fov, vec3 backgroundColor, vec3 voxelColor, float voxelSizeMultiplier);
 
 	void processKeyboardInput(GLFWwindow* window);		// Processes keyboard inputs
 	bool loop();	// To be called every frame; Returns false if window has been signaled to close
