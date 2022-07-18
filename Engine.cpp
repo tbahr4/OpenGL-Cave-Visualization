@@ -19,18 +19,18 @@
 // Constructors
 //
 
-Engine::Engine(const char* windowTitle, int screenWidth, int screenHeight, vec3 initialCamPos, float camYaw, float camPitch, float movementSpeed, float mouseSensitivity, float fov, vec3 backgroundColor, vec3 voxelColor, float voxelSizeMultiplier) {
+Engine::Engine(const char* windowTitle, int screenWidth, int screenHeight, vec3 initialCamPos, float camYaw, float camPitch, float movementSpeed, float mouseSensitivity, float fov, vec3 backgroundColor, vec3 defaultVoxelColor, float voxelSizeMultiplier) {
 	this->screenWidth = screenWidth;
 	this->screenHeight = screenHeight;
 	this->backgroundColor = backgroundColor;
-	this->voxelColor = voxelColor;
+	this->defaultVoxelColor = defaultVoxelColor;
 	this->voxelSizeMultiplier = voxelSizeMultiplier;
 	
 	// Setup camera
 	camera = new Camera(initialCamPos, camYaw, camPitch, movementSpeed, mouseSensitivity, fov);
 
 	// Setup world object to store world space positions of the voxels
-	world = new World(voxelSizeMultiplier);
+	world = new World(defaultVoxelColor, voxelSizeMultiplier);
 
 	// Setup shapes object
 	shapes = new Shapes(voxelSizeMultiplier);
@@ -90,11 +90,14 @@ Engine::Engine(const char* windowTitle, int screenWidth, int screenHeight, vec3 
 	glBufferData(GL_ARRAY_BUFFER, shapes->cube().size() * sizeof(float), &shapes->cube()[0], GL_STATIC_DRAW);
 
 	// POSITION attrib  
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 	// TEXTUREPOS attrib
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
+	// NORMAL attrib
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float)));
+	glEnableVertexAttribArray(2);
 
 	// Rendering
 	shader->use();					// Enable shader
@@ -149,7 +152,7 @@ bool Engine::loop() {
 		model = translate(model, world->getPositionVector()[i]);
 		shader->setMat4("model", model);
 
-		shader->setVec3("voxelColor", voxelColor);
+		shader->setVec3("voxelColor", world->getPropertyVector()[i].color);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 	}
 

@@ -55,7 +55,7 @@ public:
 	float prevX, prevY;				// Last mouse movement position
 	unsigned int VAO, VBO;			// Vertex objects
 	vec3 backgroundColor;			
-	vec3 voxelColor;		
+	vec3 defaultVoxelColor;		
 		
 
 public:
@@ -63,7 +63,7 @@ public:
 	//
 
 	// Initialize the engine
-	Engine(const char* windowTitle, int screenWidth, int screenHeight, vec3 initialCamPos, float camYaw, float camPitch, float movementSpeed, float mouseSensitivity, float fov, vec3 backgroundColor, vec3 voxelColor, float voxelSizeMultiplier);
+	Engine(const char* windowTitle, int screenWidth, int screenHeight, vec3 initialCamPos, float camYaw, float camPitch, float movementSpeed, float mouseSensitivity, float fov, vec3 backgroundColor, vec3 defaultVoxelColor, float voxelSizeMultiplier);
 
 	void processKeyboardInput(GLFWwindow* window);		// Processes keyboard inputs
 	bool loop();	// To be called every frame; Returns false if window has been signaled to close
