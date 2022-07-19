@@ -25,7 +25,7 @@ Engine engine(SCREEN_TITLE, INITIAL_SCREEN_WIDTH, INITIAL_SCREEN_HEIGHT, INITIAL
 int main() {
 	// Generate world
 	//
-	vector<blockProperty> properties = {
+	/*vector<blockProperty> properties = {
 		blockProperty(vec3(0.9f, 0.9f, 0.9f)),
 		blockProperty(vec3(0.8f, 0.8f, 0.8f)),
 		blockProperty(vec3(0.25f, 0.25f, 0.25f)),
@@ -41,17 +41,19 @@ int main() {
 		blockProperty(vec3(0.25f, 0.25f, 0.6f)),
 		blockProperty(vec3(0.95f, 0.6f, 0.75f)),
 		blockProperty(vec3(0.8f, 0.25f, 0.78f)),
-	};
+	};*/
 	
 
 	//engine.world->addBox(vec3(0, 0, 0), vec3(5, 5, 5));
 	
 	//engine.world->addBox(vec3(0, 0, 0), vec3(16, 1, 1), properties);	
 
-	engine.world->setVector(vec3(0, 0, 0), "00001 00010 00100 01000 10000   00010 00100 01000 10000 00000   00100 01000 10000 00000 00000   01000 10000 00000 00000 00000   10000 00000 00000 00000 00000   00000 00000 00000 00000 00000", 5, properties);
+	//engine.world->setVector(vec3(0, 0, 0), "00001 00010 00100 01000 10000   00010 00100 01000 10000 00000   00100 01000 10000 00000 00000   01000 10000 00000 00000 00000   10000 00000 00000 00000 00000   00000 00000 00000 00000 00000", 5, properties);
 
 
+	//engine.world->addBox(vec3(0, 0, 0), vec3(16, 16, 16));
 
+	engine.world->addBlock(0, 0, 0);
 	
 
 

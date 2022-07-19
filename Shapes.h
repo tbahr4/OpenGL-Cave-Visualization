@@ -11,7 +11,8 @@
 using namespace std;
 
 
-#define CUBE_VERTEX_COUNT 180
+#define CUBE_TOTAL_ATTRIBUTES 288		// Number of total attributes defined
+#define CUBE_ATTRIBUTES_PER_LINE 8		// Number of values per vertex line
 
 
 
@@ -32,7 +33,7 @@ private:
 	//
 	vector<float> cubeVertices = {
 		// Vertex positions		// Texture coords		// Normal	
-		//						// (Unused currently)   //
+		//						//					    //
 		-0.5f, -0.5f, -0.5f,	0.0f, 0.0f,				0.0f, 0.0f, -1.0f,
 		 0.5f, -0.5f, -0.5f,	1.0f, 0.0f,				0.0f, 0.0f, -1.0f,
 		 0.5f,  0.5f, -0.5f,	1.0f, 1.0f,				0.0f, 0.0f, -1.0f,

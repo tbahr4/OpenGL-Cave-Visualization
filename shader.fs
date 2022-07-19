@@ -13,7 +13,7 @@ vec4 adjustBrightness(vec4 color, float multiplier);		// Returns the adjusted br
 void main()
 {
 	// Outline
-	float outlineSize = 0.0f;
+	float outlineSize = 0.02f;
 	if (TextureCoord.x < outlineSize || TextureCoord.x > 1-outlineSize || TextureCoord.y < outlineSize || TextureCoord.y > 1-outlineSize) {
 		FragmentColor = vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	} else {

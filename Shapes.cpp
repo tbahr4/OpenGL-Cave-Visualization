@@ -16,7 +16,7 @@ Shapes::Shapes(float sizeMultiplier) {
 	if (sizeMultiplier == 1) return;		// No change
 
 	// Adjust size
-	for (size_t i = 0; i < CUBE_VERTEX_COUNT; i+=5) {
+	for (size_t i = 0; i < CUBE_TOTAL_ATTRIBUTES; i+= CUBE_ATTRIBUTES_PER_LINE) {
 		cubeVertices[i] *= sizeMultiplier;
 		cubeVertices[i+1] *= sizeMultiplier;
 		cubeVertices[i+2] *= sizeMultiplier;

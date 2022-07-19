@@ -162,7 +162,7 @@ void World::setVector(vec3 startPosition, string blockList, int blockLength) {
 	int j = 0;
 	for (char c : blockList) {
 		if (c == '1')
-			blockPositions.push_back(vec3(x, y, z));
+			blockPositions.push_back(vec3(x, y, z) * voxelSizeMultiplier);
 		else if (c == '0')
 			;// Do nothing
 		else if (c == ' ')
@@ -209,7 +209,7 @@ void World::setVector(vec3 startPosition, string blockList, int blockLength, vec
 	int j = 0;
 	for (char c : blockList) {
 		if (c == '1')
-			blockPositions.push_back(vec3(x, y, z));
+			blockPositions.push_back(vec3(x, y, z) * voxelSizeMultiplier);
 		else if (c == '0')
 			;// Do nothing
 		else if (c == ' ')
